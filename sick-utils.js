@@ -13,6 +13,8 @@ function parseYamlSchedule(response) {
 }
 
 function genSchedule (dates, instructor) {
+  console.log("in genSchedule");
+  console.log(dates);
   let schedule = []
   dates.forEach(date => {
     date.day.forEach(timeSlot => {
@@ -25,14 +27,31 @@ function genSchedule (dates, instructor) {
       }
     })
   })
-  console.log(schedule);
   return schedule
+}
+
+function buildSchedule (instructor){
+  let axiosCalls = [
+    getClassroomSchedule('cr5'),
+    getClassroomSchedule('cr6')
+  ]
+  return axios.all(axiosCalls)
+    .then(axios.spread((cr5, cr6)=>{
+      return (
+        parseYamlSchedule(cr5)
+          .concat(
+            parseYamlSchedule(cr6)
+          )
+      )
+    }))
+    .then(response => genSchedule(response, instructor)).catch(e => {
+      console.log(e);
+    })
 }
 
 module.exports = {
   genSchedule,
   getClassroomSchedule,
-  parseYamlSchedule
+  parseYamlSchedule,
+  buildSchedule
 }
-
-// axios.all([ getClassroomSchedule('cr6'), getClassroomSchedule('cr5') ])
