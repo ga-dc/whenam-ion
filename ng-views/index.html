@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <title></title>
+    <style media="screen">
+      .slot{
+        border: 1px solid black;
+        border-radius: 5px;
+        width: 30%;
+        margin: 0 auto;
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body data-ng-app="zoolandar" data-ng-controller="ClassController as vm">
+    <h1>j</h1>
+    <div class='slot' data-ng-repeat="class in vm.classes" data-ng-if="class.lead">
+      {{class.title}}
+      <p>
+        {{class.time}}, {{class.date}}, in {{class.classroom}}
+      </p>
+      <p>{{class.lead}} | {{class.support}}</p>
+
+    </div>
+    {{vm.classes}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-resource.min.js" charset="utf-8"></script>
+    <script type="text/javascript">
+      angular
+        .module("zoolandar", ["ngResource"])
+        .controller("ClassController", ["Class", ClassControllerFunc])
+        .factory("Class", ["$resource", ClassFactory])
+
+        function ClassControllerFunc(Class){
+          this.classes = Class.query((res)=>{console.log(res)})
+        }
+
+        function ClassFactory($resource){
+          return $resource("http://localhost:3007/schedule");
+        }
+
+    </script>
+  </body>
+</html>

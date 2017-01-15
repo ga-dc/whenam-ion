@@ -54,25 +54,6 @@ function buildSchedule (){
   }))
 }
 
-function filterSchedule(dates, instructor) {
-  let schedule = [];
-  dates.forEach(date => {
-    date.day.forEach(timeSlot => {
-      for (let time in timeSlot) {
-        if (timeSlot[ time ].lead &&
-          timeSlot[ time ].lead.toLowerCase() === instructor ) {
-            schedule.push( timeSlot[time] ) ;
-          } else if (timeSlot[ time ].support &&
-            timeSlot[ time ].support.toLowerCase() === instructor ) {
-              schedule.push( timeSlot[time] ) ;
-          }
-        }
-      })
-    })
-  return schedule;
-}
-
 module.exports = {
-  buildSchedule,
-  filterSchedule
+  buildSchedule
 }
