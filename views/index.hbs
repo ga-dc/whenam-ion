@@ -2,23 +2,27 @@
   .day{
     border: 1px solid black;
     border-radius: 5px;
+    width: 30%;
+    margin: 0 auto;
+    text-align: center;
   }
 </style>
 <h1>Hello</h1>
-{{#each data}}
-<div class="day">
-  a
-  <p>{{data}}</p>
-  <p>{{data.date}}</p>
-  <p>{{data.time}}</p>
+  <input id="instructorFilter" type="text" name="name" />
+<div class="schedule">
+  {{#each data}}
+    <div class="day">
+    <p>{{date}}, {{time}}, {{classroom}}</p>
+    <p>{{title}}</p>
+    <p>{{lead}}</p>
+    <p>{{support}}</p>
+  </div>
+  {{/each}}
 </div>
-{{/each}}
-<form>
-  <input onchange="coolFunction" id="instructorFilter" type="text" name="name" />
-</form>
 <script type="text/javascript">
-
-  function coolFunction() {
-    instructor = instructorFilter.value
-  }
+  instructorFilter.addEventListener("change",(e)=>{
+    e.preventDefault();
+    instructor = instructorFilter.value;
+    console.log(instructor);
+  })
 </script>

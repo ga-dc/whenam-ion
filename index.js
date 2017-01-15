@@ -7,15 +7,22 @@ hbs.registerHelper('filter', utils.filterSchedule);
 
 app.get('/', (req, res)=>{
   utils.buildSchedule().then( data => {
-    console.log(data.length);
-    res.send(data);
-    // res.render('index', {data:data})} );
-  })
-})
+    // data = data.sort((a,b)=>{
+    //   if (a.sortDate < b.sortDate) {
+    //     return -1;
+    //   }
+    //   if (a.sortDate > b.sortDate) {
+    //     return 1;
+    //   }
+    //   return 0;
+    // })
+
+  res.render('index', {data})
+  } );
+} );
 
 app.get('/schedule', (req, res)=> {
-  let instructor = req.params.instructor.toLowerCase();
-  utils.buildSchedule(instructor).then(sched => res.send(sched) )
+  utils.buildSchedule().then( data => res.send(data) );
 });
 
 app.listen(3007, ()=>{

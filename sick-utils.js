@@ -7,20 +7,22 @@ function getClassroomSchedule (n){
 }
 
 function parseYamlSchedule(response, classRoomNum) {
+
   if (response.status >= 400) {
     throw new Error("Bad response from server");
   }
+
   let parsedResponse = parsey.load(response.data);
   let daysJson = parsedResponse[1].days;
   let parsedDate = parsedResponse[0]["start-date"].replace(/-/g,"");
-  let startDate = new Date(parsedDate);
-  daysJson = daysJson.map((dayWrapper, index)=>{
-    let weekIndex = Math.floor(index / 5);
-    let dayNum = weekIndex * 7 + index % 5;
+
+  daysJson = daysJson.map((dayWrapper, dayIndex)=>{
+    let weekIndex = Math.floor(dayIndex / 5);
+    let dayNum = weekIndex * 7 + dayIndex % 5;
     let date = moment(parsedDate, "YYYYMMDD").add(dayNum, "days");
     let wordedDate = date.format("MMMM Do YYYY");
     let sortDate = date.format("L");
-    dayWrapper.day = dayWrapper.day.map((timeSlot)=>{
+    dayWrapper.day = dayWrapper.day.map((timeSlot, timeIndex)=>{
       for (var time in timeSlot) {
         timeSlot[time].classroom = `Classroom ${classRoomNum}`;
         timeSlot[time].date = wordedDate;
@@ -29,8 +31,9 @@ function parseYamlSchedule(response, classRoomNum) {
       }
       return timeSlot[time];
     })
-    return dayWrapper.day[index];
+    return dayWrapper.day;
   })
+  .reduce(  (a,c) => a.concat(c) );
   return daysJson;
 }
 
