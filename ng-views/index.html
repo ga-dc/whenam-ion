@@ -1,71 +1,76 @@
 
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
+<head>
+  <meta charset="utf-8">
 
-    <title></title>
-    <style media="screen">
-      header {
-        text-align: center;
-      }
-      input {
-        font-size: 48px;
-      }
-      .slot{
-        border: 4px double black;
-        border-radius: 14px;
-        max-width: 15%;
-        text-align: center;
-        flex-grow: 1;
-        padding: .5em;
-      }
-      .container{
-        margin: 0 auto;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: wrap;
-        flex-direction: row;
-        display: inline-flex;;
-      }
-    </style>
-  </head>
+  <title></title>
+  <style media="screen">
+  header {
+    text-align: center;
+  }
+  input {
+    font-size: 48px;
+  }
+  .slot{
+    border: 4px double black;
+    border-radius: 14px;
+    max-width: 15%;
+    text-align: center;
+    flex-grow: 1;
+    padding: .5em;
+  }
+  .container{
+    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+    display: inline-flex;;
+  }
+  </style>
+</head>
 
-  <body data-ng-app="zoolandar" data-ng-controller="ClassController as vm">
-    <header>
-      <h1>When Am I On?</h1>
-      <input type="text" data-ng-model="vm.searchText" />
-    </header>
-    <div class="container">
+<body data-ng-app="zoolandar" data-ng-controller="ClassController as vm">
+  <header>
+    <h1>When Am I On?</h1>
+    <input type="text" data-ng-model="vm.searchText" data-ng-change="vm.getClasses(vm.searchText)"/>
+  </header>
+  <div class="container">
 
     <div class='slot' data-ng-repeat="class in vm.classes | filter: vm.searchText" data-ng-if="class.lead">
-      {{class.title}}
-      <p>
-        {{class.time}}, {{class.date}}, in {{class.classroom}}
-      </p>
+      <p>{{class.title}}</p>
+      <div class="time">
+        <span>{{class.date}}</span><br>
+        <span>{{class.time}}</span><br>
+        <span>{{class.classroom}}</span><br>
+      </div>
       <p>{{class.lead + " " + ((class.support)?" | ":"") + class.support}}</p>
 
     </div>
   </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-resource.min.js" charset="utf-8"></script>
-    <script type="text/javascript">
-      angular
-        .module("zoolandar", ["ngResource"])
-        .controller("ClassController", ["Class", ClassControllerFunc])
-        .factory("Class", ["$resource", ClassFactory])
+</body>
 
-        function ClassControllerFunc(Class){
-          this.classes = Class.query((res)=>{console.log(res)})
-          this.filter = (instructor)=>this.classes.filter(slot => slot.lead === instructor||slot.support === instructor);
-        }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-resource.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+angular
+.module("zoolandar", ["ngResource"])
+.controller("ClassController", ["Class", ClassControllerFunc])
+.factory("Class", ["$resource", ClassFactory])
 
-        function ClassFactory($resource){
-          return $resource("http://localhost:3007/schedule");
-        }
+function ClassControllerFunc(Class){
+  this.classes = Class.query();
+  this.getClasses = instructor =>  {this.leads(instructor), this.supports(instructor)}
+  this.leads = instructor => this.classes.filter( slot => slot.lead===instructor)
+  this.supports = instructor => this.classes.filter( slot => slot.support===instructor)
+}
+
+function ClassFactory($resource){
+  return $resource("http://localhost:3007/schedule");
+}
 
 
 
-    </script>
-  </body>
+</script>
 </html>
