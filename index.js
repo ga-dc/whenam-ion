@@ -1,5 +1,5 @@
 const app = require('express')();
-const utils = require('./sick-utils.js');
+const utils = require('./utils.js');
 const cors = require('cors');
 
 app.use(cors());

@@ -20,7 +20,7 @@ function parseYamlSchedule(response, classRoomNum) {
     let weekIndex = Math.floor(dayIndex / 5);
     let dayNum = weekIndex * 7 + dayIndex % 5;
     let date = moment(parsedDate, "YYYYMMDD").add(dayNum, "days");
-    let wordedDate = date.format("MMMM Do YYYY");
+    let wordedDate = date.format("llll");
     let sortDate = date.format("L");
     dayWrapper.day = dayWrapper.day.map((timeSlot, timeIndex)=>{
       for (var time in timeSlot) {
@@ -38,10 +38,7 @@ function parseYamlSchedule(response, classRoomNum) {
 }
 
 function buildSchedule (){
-  let axiosCalls = [
-    getClassroomSchedule('cr5'),
-    getClassroomSchedule('cr6')
-  ]
+  let axiosCalls = [ getClassroomSchedule('cr5'), getClassroomSchedule('cr6') ]
 
   return axios.all(axiosCalls)
   .then(axios.spread((cr5, cr6)=>{
@@ -54,7 +51,7 @@ function buildSchedule (){
   }))
 }
 
-function sortByDate(date){
+function sortByDate(data){
   data = data.sort((a,b)=>{
     if (a.sortDate < b.sortDate) {
       return -1;
@@ -64,8 +61,10 @@ function sortByDate(date){
     }
     return 0;
   })
+  return data;
 }
 
 module.exports = {
-  buildSchedule
+  buildSchedule,
+  sortByDate
 }
