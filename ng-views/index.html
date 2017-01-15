@@ -14,16 +14,35 @@
     text-align: center;
   }
   input {
+    font-family: Courier;
     font-size: 48px;
+    border-radius: .25em;
+    padding: .25em;
+    margin: .5em;
+    text-align: center;
+    color: #b1ff0a;
+    background-color: rgb(79,67,48);
   }
-  .info {
-    background-color: black;
-    color: #00EE00;
+  span {
+    margin: .25em;
+    padding: .5em;
+  }
+  .info, .instructors {
+    color: rgb(177,255,10);
     border-radius: .25em;
     padding: .5em;
-    background-color: #454330;
+    background-color: rgb(79,67,48);
   }
-  .slot{
+  .title {
+    border-radius: .25em;
+    padding: .25em;
+    font-weight: bold;
+    font-size: 24px;
+    -webkit-text-stroke: 1px rgba(122,122,122,0.5);
+    background-color: rgb(255,255,222);
+    color: rgb(99,67,48);
+  }
+  .slot {
     margin: .5em;
     border: 4px double #b5b3a0;
     border-radius: 14px;
@@ -32,37 +51,49 @@
     text-align: center;
     flex-grow: 1;
     padding: .5em;
+    background-image: radial-gradient(ellipse farthest-side at 0% -100px, rgba(226,224,201,0.4) 0%, rgba(131,158,72,0.4) 95%);
+
   }
-  .container{
+  .container {
     align-items: center;
     justify-content: space-around;
     flex-wrap: wrap;
     flex-direction: row;
     display: flex;
   }
-  .instructors{
-    background-color: #FFFFFF;
+  .instructors {
+    padding: .5em;
     border-radius: .25em;
-    padding: .25em;
+    font-size: 24px;
+    font-weight: bold;
+    background-color: rgb(255,255,222);
+    color: rgb(99,67,48);
+  }
+  .info-item {
+    margin: .25em;
+  }
+  .time{
+    background-color: ;
   }
   </style>
 </head>
 
 <body data-ng-app="zoolandar" data-ng-controller="ClassController as vm">
   <header>
-    <h1>When Am I On?</h1>
-    <input type="text" data-ng-model="vm.searchText" data-ng-change="vm.getClasses(vm.searchText)"/>
+    <input type="text" data-ng-model="vm.searchText" autofocus
+           placeholder="Search & Filter"
+           data-ng-change="vm.getClasses(vm.searchText)"/>
   </header>
   <div class="container">
 
     <div class='slot' data-ng-repeat="class in vm.classes | filter: vm.searchText" data-ng-if="class.lead">
-      <p>{{class.title}}</p>
+      <p class="title">{{class.title}}</p>
       <div class="info">
-        <span>{{class.date}}</span><br>
-        <span>{{class.time}}</span><br>
-        <span>{{class.classroom}}</span><br>
+        <p class="info-item">{{class.date}}</p>
+        <p class="info-item time">{{class.time}}</p>
+        <p class="info-item">{{class.classroom}}</p>
       </div>
-      <p class="instructors">{{class.lead + " " + ((class.support)?" | ":"") + class.support}}</p>
+      <p class="instructors">{{class.lead + " " + ((class.support)?" & ":"") + class.support}}</p>
 
     </div>
   </div>
