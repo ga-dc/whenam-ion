@@ -54,6 +54,18 @@ function buildSchedule (){
   }))
 }
 
+function sortByDate(date){
+  data = data.sort((a,b)=>{
+    if (a.sortDate < b.sortDate) {
+      return -1;
+    }
+    if (a.sortDate > b.sortDate) {
+      return 1;
+    }
+    return 0;
+  })
+}
+
 module.exports = {
   buildSchedule
 }
