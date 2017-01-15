@@ -6,27 +6,44 @@
 
   <title></title>
   <style media="screen">
+  body {
+    font-family: Courier;
+    background-color: #656350;
+  }
   header {
     text-align: center;
   }
   input {
     font-size: 48px;
   }
+  .info {
+    background-color: black;
+    color: #00EE00;
+    border-radius: .25em;
+    padding: .5em;
+    background-color: #454330;
+  }
   .slot{
-    border: 4px double black;
+    margin: .5em;
+    border: 4px double #b5b3a0;
     border-radius: 14px;
+    background-color: #e2e0c9;
     max-width: 15%;
     text-align: center;
     flex-grow: 1;
     padding: .5em;
   }
   .container{
-    margin: 0 auto;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     flex-wrap: wrap;
     flex-direction: row;
-    display: inline-flex;;
+    display: flex;
+  }
+  .instructors{
+    background-color: #FFFFFF;
+    border-radius: .25em;
+    padding: .25em;
   }
   </style>
 </head>
@@ -40,12 +57,12 @@
 
     <div class='slot' data-ng-repeat="class in vm.classes | filter: vm.searchText" data-ng-if="class.lead">
       <p>{{class.title}}</p>
-      <div class="time">
+      <div class="info">
         <span>{{class.date}}</span><br>
         <span>{{class.time}}</span><br>
         <span>{{class.classroom}}</span><br>
       </div>
-      <p>{{class.lead + " " + ((class.support)?" | ":"") + class.support}}</p>
+      <p class="instructors">{{class.lead + " " + ((class.support)?" | ":"") + class.support}}</p>
 
     </div>
   </div>
