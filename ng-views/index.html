@@ -9,24 +9,36 @@
       .slot{
         border: 1px solid black;
         border-radius: 5px;
-        width: 30%;
+        min-width: 20%;
         margin: 0 auto;
         text-align: center;
+        flex-grow: 5;
+        justify-content: center;
+      }
+      .container{
+        flex-wrap: wrap;
+        width: 85%;
+        margin: auto;
+        flex-direction: row;
+        display: inline-flex;;
       }
     </style>
   </head>
 
   <body data-ng-app="zoolandar" data-ng-controller="ClassController as vm">
-    <h1>j</h1>
-    <div class='slot' data-ng-repeat="class in vm.classes" data-ng-if="class.lead">
+    <h1>When Am I On?</h1>
+    <input type="text" data-ng-model="vm.searchText">
+    <div class="container">
+
+    <div class='slot' data-ng-repeat="class in vm.classes | filter: vm.searchText" data-ng-if="class.lead">
       {{class.title}}
       <p>
         {{class.time}}, {{class.date}}, in {{class.classroom}}
       </p>
-      <p>{{class.lead}} | {{class.support}}</p>
+      <p>{{class.lead + " " + ((class.support)?" | ":"") + class.support}}</p>
 
     </div>
-    {{vm.classes}}
+  </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-resource.min.js" charset="utf-8"></script>
     <script type="text/javascript">
@@ -37,11 +49,14 @@
 
         function ClassControllerFunc(Class){
           this.classes = Class.query((res)=>{console.log(res)})
+          this.filter = (instructor)=>this.classes.filter(slot => slot.lead === instructor||slot.support === instructor);
         }
 
         function ClassFactory($resource){
           return $resource("http://localhost:3007/schedule");
         }
+
+
 
     </script>
   </body>
