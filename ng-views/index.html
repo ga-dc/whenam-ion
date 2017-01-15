@@ -13,7 +13,7 @@
   header {
     text-align: center;
   }
-  input {
+  .search {
     font-family: Courier;
     font-size: 48px;
     border-radius: .25em;
@@ -23,6 +23,7 @@
     color: #b1ff0a;
     background-color: rgb(79,67,48);
   }
+
   span {
     margin: .25em;
     padding: .5em;
@@ -80,13 +81,27 @@
 
 <body data-ng-app="zoolandar" data-ng-controller="ClassController as vm">
   <header>
-    <input type="text" data-ng-model="vm.searchText" autofocus
-           placeholder="Search & Filter"
-           data-ng-change="vm.getClasses(vm.searchText)"/>
+    <input class="search" type="text" data-ng-model="vm.searchText" autofocus
+    placeholder="Search & Filter"
+    data-ng-change="vm.getClasses(vm.searchText)"/>
+    <span data-ng-if="vm.searchText">
+      <span class="search" >
+        {{results.length}}
+      </span>
+      <span class="search-label">results</span>
+      <span class="search">
+        {{vm.leads.length}}
+      </span>
+      <span class="search-label">Lead</span>
+      <span class="search">
+        {{vm.supports.length}}
+      </span>
+      <span class="search-label">Support</span>
+    </span>
   </header>
   <div class="container">
 
-    <div class='slot' data-ng-repeat="class in vm.classes | filter: vm.searchText" data-ng-if="class.lead">
+    <div class='slot' data-ng-repeat="class in vm.searchClasses | filter:vm.searchText as results" data-ng-if="class.lead">
       <p class="title">{{class.title}}</p>
       <div class="info">
         <p class="info-item">{{class.date}}</p>
@@ -108,10 +123,20 @@ angular
 .factory("Class", ["$resource", ClassFactory])
 
 function ClassControllerFunc(Class){
-  this.classes = Class.query();
-  this.getClasses = instructor =>  {this.leads(instructor), this.supports(instructor)}
-  this.leads = instructor => this.classes.filter( slot => slot.lead===instructor)
-  this.supports = instructor => this.classes.filter( slot => slot.support===instructor)
+  this.classes = Class.query( res => {
+    this.searchClasses = this.classes.map( slot => (delete slot.url) ? slot:slot);
+  });
+  this.getClasses = instructor =>  {this.getLeads(instructor), this.getSupports(instructor)}
+  this.getLeads = instructor => {
+    instructor = instructor[0].toUpperCase() + instructor.toLowerCase().substr(1);
+    this.leads = this.classes.filter( slot => slot.lead === instructor);
+    return this.leads;
+  }
+  this.getSupports = instructor => {
+    instructor = instructor[0].toUpperCase() + instructor.toLowerCase().substr(1);
+    this.supports = this.classes.filter( slot => slot.support === instructor)
+    return this.supports;
+  }
 }
 
 function ClassFactory($resource){
