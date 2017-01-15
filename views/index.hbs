@@ -1,0 +1,24 @@
+<style media="screen">
+  .day{
+    border: 1px solid black;
+    border-radius: 5px;
+  }
+</style>
+<h1>Hello</h1>
+{{#each data}}
+<div class="day">
+  a
+  <p>{{data}}</p>
+  <p>{{data.date}}</p>
+  <p>{{data.time}}</p>
+</div>
+{{/each}}
+<form>
+  <input onchange="coolFunction" id="instructorFilter" type="text" name="name" />
+</form>
+<script type="text/javascript">
+
+  function coolFunction() {
+    instructor = instructorFilter.value
+  }
+</script>

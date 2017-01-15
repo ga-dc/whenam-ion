@@ -14,45 +14,32 @@ function parseYamlSchedule(response, classRoomNum) {
   let daysJson = parsedResponse[1].days;
   let parsedDate = parsedResponse[0]["start-date"].replace(/-/g,"");
   let startDate = new Date(parsedDate);
-  // console.log(startDate, daysJson.length, classRoomNum);
   daysJson = daysJson.map((dayWrapper, index)=>{
-    let date = moment(parsedDate, "YYYYMMDD").add(index, "days").format("MMMM Do YYYY");
+    let weekIndex = Math.floor(index / 5);
+    let dayNum = weekIndex * 7 + index % 5;
+    let date = moment(parsedDate, "YYYYMMDD").add(dayNum, "days");
+    let wordedDate = date.format("MMMM Do YYYY");
+    let sortDate = date.format("L");
     dayWrapper.day = dayWrapper.day.map((timeSlot)=>{
       for (var time in timeSlot) {
         timeSlot[time].classroom = `Classroom ${classRoomNum}`;
-        timeSlot[time].date = date;
-        // console.log(timeSlot[time]);
+        timeSlot[time].date = wordedDate;
+        timeSlot[time].sortDate = sortDate;
+        timeSlot[time].time = time;
       }
-      return timeSlot;
+      return timeSlot[time];
     })
-    return dayWrapper;
+    return dayWrapper.day[index];
   })
   return daysJson;
 }
 
-function genSchedule (dates, instructor) {
-  let schedule = []
-  dates.forEach(date => {
-    date.day.forEach(timeSlot => {
-      for (let time in timeSlot) {
-        if (timeSlot[ time ].lead &&
-            timeSlot[ time ].lead.toLowerCase() === instructor ) {
-          schedule.push( timeSlot[time] ) ;
-        } else if (timeSlot[ time ].support &&
-            timeSlot[ time ].support.toLowerCase() === instructor ) {
-          schedule.push( timeSlot[time] ) ;
-        }
-      }
-    })
-  })
-  return schedule;
-}
-
-function buildSchedule (instructor){
+function buildSchedule (){
   let axiosCalls = [
     getClassroomSchedule('cr5'),
     getClassroomSchedule('cr6')
   ]
+
   return axios.all(axiosCalls)
   .then(axios.spread((cr5, cr6)=>{
     return (
@@ -62,13 +49,27 @@ function buildSchedule (instructor){
       )
     )
   }))
-  .then(response => genSchedule(response, instructor)).catch(e => {
-  })
+}
+
+function filterSchedule(dates, instructor) {
+  let schedule = [];
+  dates.forEach(date => {
+    date.day.forEach(timeSlot => {
+      for (let time in timeSlot) {
+        if (timeSlot[ time ].lead &&
+          timeSlot[ time ].lead.toLowerCase() === instructor ) {
+            schedule.push( timeSlot[time] ) ;
+          } else if (timeSlot[ time ].support &&
+            timeSlot[ time ].support.toLowerCase() === instructor ) {
+              schedule.push( timeSlot[time] ) ;
+          }
+        }
+      })
+    })
+  return schedule;
 }
 
 module.exports = {
-  genSchedule,
-  getClassroomSchedule,
-  parseYamlSchedule,
-  buildSchedule
+  buildSchedule,
+  filterSchedule
 }
