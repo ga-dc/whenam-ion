@@ -18,17 +18,26 @@ function ClassControllerFunc(Class){
     })
     vm.classes = res;
   });
-  vm.getClasses = instructor =>  {vm.getLeads(instructor), vm.getSupports(instructor)}
+  vm.getClasses = instructor =>  {
+    vm.getLeads(instructor);
+    vm.getSupports(instructor);
+    vm.cr5 = vm.searchClasses.filter( slot => slot.classroom === "Classroom 5");
+    vm.cr6 = vm.searchClasses.filter( slot => slot.classroom === "Classroom 6");
+  };
+
   vm.getLeads = instructor => {
     instructor = instructor[0].toUpperCase() + instructor.toLowerCase().substr(1);
     vm.leads = vm.classes.filter( slot => slot.lead === instructor);
     return vm.leads;
   }
+
   vm.getSupports = instructor => {
     instructor = instructor[0].toUpperCase() + instructor.toLowerCase().substr(1);
     vm.supports = vm.classes.filter( slot => slot.support === instructor)
     return vm.supports;
   }
+
+
 }
 
 function ClassFactory($resource){
