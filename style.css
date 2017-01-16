@@ -12,15 +12,14 @@ header {
   font-size: 48px;
   border-radius: .25em;
   padding: .25em;
-  margin: .5em;
   text-align: center;
   color: #b1ff0a;
   background-color: rgb(79,67,48);
+  margin: 0;
 }
 
 .search-label {
   font-size: 16px;
-  margin: 0;
 }
 
 span {
