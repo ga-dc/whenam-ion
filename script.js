@@ -4,19 +4,30 @@ angular
 .factory("Class", ["$resource", ClassFactory])
 
 function ClassControllerFunc(Class){
-  this.classes = Class.query( res => {
-    this.searchClasses = this.classes.map( slot => (delete slot.url) ? slot:slot);
+  let vm = this;
+  Class.query( res => {
+    vm.searchClasses = [];
+    res.forEach( slot => {
+      //copy array
+      let newSlot = {};
+      for (var k in slot) {
+        newSlot[k] = slot[k];
+      }
+      newSlot.url="";
+      vm.searchClasses.push(newSlot);
+    })
+    vm.classes = res;
   });
-  this.getClasses = instructor =>  {this.getLeads(instructor), this.getSupports(instructor)}
-  this.getLeads = instructor => {
+  vm.getClasses = instructor =>  {vm.getLeads(instructor), vm.getSupports(instructor)}
+  vm.getLeads = instructor => {
     instructor = instructor[0].toUpperCase() + instructor.toLowerCase().substr(1);
-    this.leads = this.classes.filter( slot => slot.lead === instructor);
-    return this.leads;
+    vm.leads = vm.classes.filter( slot => slot.lead === instructor);
+    return vm.leads;
   }
-  this.getSupports = instructor => {
+  vm.getSupports = instructor => {
     instructor = instructor[0].toUpperCase() + instructor.toLowerCase().substr(1);
-    this.supports = this.classes.filter( slot => slot.support === instructor)
-    return this.supports;
+    vm.supports = vm.classes.filter( slot => slot.support === instructor)
+    return vm.supports;
   }
 }
 

@@ -31,7 +31,7 @@
   <div class="container">
 
     <div class='slot' data-ng-repeat="class in vm.searchClasses | filter:vm.searchText as results" data-ng-if="class.lead">
-      <p class="title">{{class.title}}</p>
+      <p class="title"><a href="{{vm.classes[vm.searchClasses.indexOf(class)].url}}">{{class.title}}</a></p>
       <div class="info">
         <p class="info-item">Week {{class.week}}</p>
         <p class="info-item">{{class.date}}</p>
