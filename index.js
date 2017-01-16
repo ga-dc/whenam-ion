@@ -9,5 +9,5 @@ app.get('/schedule', (req, res)=> {
 });
 
 app.listen(process.env.PORT || 3007, ()=>{
-  console.log("live on port 3007");
+  console.log(`live on port ${process.env.PORT || 3007}`);
 });
