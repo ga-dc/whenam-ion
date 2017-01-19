@@ -14,7 +14,10 @@ function ClassControllerFunc(Class){
         newSlot[k] = slot[k];
       }
       newSlot.url="";
-      vm.searchClasses.push(newSlot);
+      if (newSlot.time != "End of File") {
+        console.log(newSlot);
+        vm.searchClasses.push(newSlot);
+      }
     })
     vm.classes = res;
   });
