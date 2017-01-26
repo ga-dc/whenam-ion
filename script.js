@@ -13,14 +13,16 @@ function ClassControllerFunc(Class){
       for (var k in slot) {
         newSlot[k] = slot[k];
       }
-      newSlot.url="";
+      newSlot.urlb = "";
       vm.searchClasses.push(newSlot);
     })
     vm.classes = res;
+    console.log(res);
   });
   vm.getClasses = instructor =>  {
     vm.getLeads(instructor);
     vm.getSupports(instructor);
+    console.log("got the classes");
     vm.cr5 = vm.searchClasses.filter( slot => slot.classroom === "Classroom 5");
     vm.cr6 = vm.searchClasses.filter( slot => slot.classroom === "Classroom 6");
   };

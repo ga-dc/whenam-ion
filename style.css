@@ -1,15 +1,21 @@
 body {
   font-family: Courier;
-  background-color: #656350;
+  background-color: #555340;
 }
 
 header {
   text-align: center;
 }
 
+h1 {
+  color: #b1ff0a;
+}
+
 .cr5, .cr6 {
+  background-color: #656350;
   display: inline;
   width: 45%;
+  margin: 0;
 }
 
 .search, .search-label {
@@ -54,21 +60,23 @@ span {
   margin: .5em;
   border: 4px double rgb(79,67,48);
   border-radius: 14px;
-  background-color: #e2e0c9;
-  max-width: 15%;
-  text-align: center;
-  flex-grow: 1;
   padding: .5em;
-  background-image: radial-gradient(ellipse farthest-side at 0% 0%, rgba(226,255,171,0.2) 0%, rgba(67,37,18,0.1) 95%);
 
+  max-width: 35%;
+
+  background-color: #e2e0c9;
+  background-image: radial-gradient(ellipse farthest-side at 0% 0%, rgba(226,255,171,0.2) 0%, rgba(67,37,18,0.1) 95%);
+  text-align: center;
 }
 
 .container {
-  align-items: center;
-  justify-content: space-around;
+  margin: 0;
+  padding: 0;
+  display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  display: flex;
+  justify-content: space-around;
+  align-items: top;
 }
 
 .instructors {
