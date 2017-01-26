@@ -30,6 +30,7 @@
   </header>
   <main class="container">
 
+<<<<<<< HEAD
     <h1>CR5</h1>
     <div class='cr5 container'>
       <div class='slot' data-ng-repeat="class in vm.cr5 | filter:vm.searchText as results" data-ng-if="class.lead">
@@ -54,6 +55,15 @@
           <p class="info-item">{{class.classroom}}</p>
         </div>
         <p class="instructors">{{class.lead + " " + ((class.support)?" & ":"") + class.support}}</p>
+=======
+    <div class='slot' data-ng-repeat="class in vm.searchClasses | filter:vm.searchText as results" >
+      <p class="title"><a href="{{vm.classes[vm.searchClasses.indexOf(class)].url}}">{{class.title}}</a></p>
+      <div class="info">
+        <p class="info-item">Week {{class.week}}</p>
+        <p class="info-item">{{class.date}}</p>
+        <p class="info-item time">{{class.time}}</p>
+        <p class="info-item">{{class.classroom}}</p>
+>>>>>>> 690c1e247fbb46b08a91a3871cb4e01c1e750fac
       </div>
     </div>
 

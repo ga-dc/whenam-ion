@@ -13,8 +13,11 @@ function ClassControllerFunc(Class){
       for (var k in slot) {
         newSlot[k] = slot[k];
       }
-      newSlot.urlb = "";
-      vm.searchClasses.push(newSlot);
+      newSlot.url="";
+      if (newSlot.time != "End of File") {
+        console.log(newSlot);
+        vm.searchClasses.push(newSlot);
+      }
     })
     vm.classes = res;
     console.log(res);
