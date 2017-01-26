@@ -10,9 +10,12 @@
 
 <body data-ng-app="zoolandar" data-ng-controller="ClassController as vm">
   <header>
-    <input class="search" type="text" data-ng-model="vm.searchText" autofocus
-    placeholder="Search & Filter"
-    data-ng-change="vm.getClasses(vm.searchText)"/>
+
+    <input
+      class="search" type="text" data-ng-model="vm.searchText" autofocus
+      placeholder="Search & Filter"
+      data-ng-change="vm.getClasses(vm.searchText)" />
+
     <span data-ng-if="vm.searchText">
       <span class="search" >
         {{results.length}}
