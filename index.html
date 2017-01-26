@@ -15,7 +15,7 @@
     data-ng-change="vm.getClasses(vm.searchText)"/>
     <span data-ng-if="vm.searchText">
       <span class="search" >
-        {{cr5results.length + cr6results.length}}
+        {{results.length}}
       </span>
       <span class="search-label">results</span>
       <span class="search">
@@ -39,21 +39,9 @@
         <p class="info-item time">{{class.time}}</p>
         <p class="info-item">{{class.classroom}}</p>
       </div>
+      <p class="instructors">{{class.lead + " " + ((class.support)?" & ":"") + class.support}}</p>
     </div>
-    <h1>CR6</h1>
-    <div class='cr6 container'>
-      <div class='slot' data-ng-repeat="class in vm.cr6 | filter:vm.searchText as cr6results" data-ng-if="class.lead">
-        <p class="title"><a href="{{vm.classes[vm.searchClasses.indexOf(class)].url}}">{{class.title}}</a></p>
-        <div class="info">
-          <p class="info-item">Week {{class.week}}</p>
-          <p class="info-item">{{class.date}}</p>
-          <p class="info-item time">{{class.time}}</p>
-          <p class="info-item">{{class.classroom}}</p>
-        </div>
-        <p class="instructors">{{class.lead + " " + ((class.support)?" & ":"") + class.support}}</p>
 
-      </div>
-    </div>
 
   </main>
 
