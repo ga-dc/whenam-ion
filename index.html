@@ -28,19 +28,16 @@
       <span class="search-label">Support</span>
     </span>
   </header>
-  <main class="container">
 
-    <h1>CR5</h1>
-    <div class='cr5 container'>
-      <div class='slot' data-ng-repeat="class in vm.cr5 | filter:vm.searchText as cr5results" data-ng-if="class.lead">
-        <p class="title"><a href="{{vm.classes[vm.searchClasses.indexOf(class)].url}}">{{class.title}}</a></p>
-        <div class="info">
-          <p class="info-item">Week {{class.week}}</p>
-          <p class="info-item">{{class.date}}</p>
-          <p class="info-item time">{{class.time}}</p>
-          <p class="info-item">{{class.classroom}}</p>
-        </div>
-        <p class="instructors">{{class.lead + " " + ((class.support)?" & ":"") + class.support}}</p>
+  <div class="container">
+
+    <div class='slot' data-ng-repeat="class in vm.searchClasses | filter:vm.searchText as results" data-ng-if="class.lead">
+      <p class="title"><a href="{{vm.classes[vm.searchClasses.indexOf(class)].url}}">{{class.title}}</a></p>
+      <div class="info">
+        <p class="info-item">Week {{class.week}}</p>
+        <p class="info-item">{{class.date}}</p>
+        <p class="info-item time">{{class.time}}</p>
+        <p class="info-item">{{class.classroom}}</p>
       </div>
     </div>
     <h1>CR6</h1>
