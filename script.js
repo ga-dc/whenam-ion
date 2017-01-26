@@ -12,13 +12,14 @@ function ClassControllerFunc(Class){
       let newSlot = {};
       for (var k in slot) {
         newSlot[k] = slot[k];
+        if (k == "lead" && !slot[k]) {newSlot[k] = "-----";}
       }
       newSlot.url="";
       vm.searchClasses.push(newSlot);
     })
     vm.classes = res;
   });
-  
+
   vm.getClasses = instructor =>  {
     vm.getLeads(instructor);
     vm.getSupports(instructor);
